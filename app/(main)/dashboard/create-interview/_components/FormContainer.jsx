@@ -71,7 +71,7 @@ function FormContainer({ onHandleInputChage, GoToNext }) {
               key={index}
               className={`cursor-pointer flex items-center gap-2 px-2 p-1 bg-white border border-gray-300  rounded-xl hover:bg-secondary ${
                 interviewType.includes(type.title) &&
-                "bg-purple-200 text-primary"
+                "bg-blue-200 text-primary"
               }`}
               onClick={() => addInterviewType(type.title)}
             >

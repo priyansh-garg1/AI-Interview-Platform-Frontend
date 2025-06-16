@@ -27,7 +27,7 @@ function WelcomeContainer() {
             </h2>
           </div>
 
-          <div className="w-12 h-12 rounded-full bg-purple-600 text-white flex items-center justify-center text-lg font-semibold">
+          <div className="w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center text-lg font-semibold">
             {initials}
           </div>
         </div>

@@ -24,12 +24,21 @@ function QuestionsList({ formData, onCreateLink }) {
   const GenerateQuestionList = async () => {
     setLoading(true);
     try {
-      const result = await axios.post("/api/ai-model", {
-        ...formData,
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/ai/generate`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
       });
-
-      console.log(result.data.content);
-      const Content = result.data.content;
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to generate AI response');
+      }
+  
+      const data = await response.json();
+      const Content = data.content;
       const FinalContent = Content.replace("```json", "").replace("```", "");
       setQuestionsList(JSON.parse(FinalContent)?.interviewQuestions);
 
@@ -61,7 +70,7 @@ function QuestionsList({ formData, onCreateLink }) {
   return (
     <div>
       {loading && (
-        <div className="p-5 bg-purple-100 rounded-2xl border border-primary flex items-center gap-5">
+        <div className="p-5 bg-blue-100 rounded-2xl border border-primary flex items-center gap-5">
           <Loader2Icon className="animate-spin" />
           <div className="">
             <h2 className="font-medium">Generating Interview Questions</h2>

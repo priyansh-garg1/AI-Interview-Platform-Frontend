@@ -7,6 +7,7 @@ import FormContainer from "./_components/FormContainer";
 import QuestionsList from "./_components/QuestionsList";
 import { toast } from "sonner";
 import InterviewLink from "./_components/InterviewLink";
+import Link from "next/link";
 
 function CreateInterview() {
   const router = useRouter();
@@ -42,7 +43,9 @@ function CreateInterview() {
   return (
     <div className="mt-5 px-10 md:px-24 lg:px-44 xl:px-5">
       <div className="flex gap-5 items-center">
-        <ArrowLeft onClick={() => router.back()} className="cursor-pointer" />
+        <Link href={"/dashboard"} className=" cursor-pointer">
+          <ArrowLeft className="text-2xl" />
+        </Link>
         <h2 className="text-2xl font-bold">Create New Interview</h2>
       </div>
       <Progress value={step * 33.33} className={"my-5"} />

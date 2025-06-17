@@ -1,6 +1,7 @@
 'use client'
 import { Button } from '@/components/ui/button'
 import { Camera } from 'lucide-react'
+import Link from 'next/link'
 import React, { useState } from 'react'
 
 function LatestInterviewList() {
@@ -13,7 +14,9 @@ function LatestInterviewList() {
             <div className=' p-5 flex flex-col gap-3 items-center mt-5 bg-white rounded-xl'>
               <Camera className='h-10 w-10 text-primary'/>
             <p className='text-gray-500'>No interviews created yet.</p>
+            <Link href={"/dashboard/create-interview"} className='cursor-pointer'> ̰
             <Button>Create New Interview</Button>
+            </Link>
             </div>
           )
         }

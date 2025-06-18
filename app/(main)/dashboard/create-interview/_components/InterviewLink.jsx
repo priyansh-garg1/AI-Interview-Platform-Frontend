@@ -12,7 +12,7 @@ function InterviewLink({ interviewId, formData = { duration: "30 minutes" } }) {
   const [interviewUrl, setInterviewUrl] = useState("");
 
   const GetInterviewUrl = async () => {
-    const url = process.env.NEXT_PUBLIC_HOST_URL + "/" + interviewId;
+    const url = process.env.NEXT_PUBLIC_HOST_URL + "/interview/" + interviewId;
     setInterviewUrl(url);
   };
 

@@ -5,21 +5,21 @@ import Link from 'next/link'
 import React, { useState } from 'react'
 
 function LatestInterviewList() {
-    const [interviewList, setInterviewList] = useState([])
+  const [interviewList, setInterviewList] = useState([])
   return (
     <div className='my-5'>
-        <h2 className='text-2xl font-bold'>Latest Interview</h2>
-        {
-          interviewList.length === 0 && (
-            <div className=' p-5 flex flex-col gap-3 items-center mt-5 bg-white rounded-xl'>
-              <Camera className='h-10 w-10 text-primary'/>
+      <h2 className='text-2xl font-bold'>Latest Interview</h2>
+      {
+        interviewList.length === 0 && (
+          <div className=' p-5 flex flex-col gap-3 items-center mt-5 bg-white rounded-xl'>
+            <Camera className='h-10 w-10 text-primary' />
             <p className='text-gray-500'>No interviews created yet.</p>
-            <Link href={"/dashboard/create-interview"} className='cursor-pointer'> ̰
-            <Button>Create New Interview</Button>
+            <Link href={"/dashboard/create-interview"} className='cursor-pointer'>
+              <Button>Create New Interview</Button>
             </Link>
-            </div>
-          )
-        }
+          </div>
+        )
+      }
     </div>
   )
 }

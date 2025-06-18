@@ -51,9 +51,9 @@ function Login() {
         throw new Error(data.msg || 'Something went wrong.');
       }
 
-      // Assuming the backend returns a token on successful login/registration
       if (data.token) {
         localStorage.setItem('token', data.token); // Store the token
+        localStorage.setItem("user",JSON.stringify(data.user))
         setMessage(isSignup ? "Registration successful!" : "Login successful.");
         router.replace("/dashboard"); // Redirect to dashboard on success
       } else {
@@ -67,8 +67,6 @@ function Login() {
     }
   };
 
-  // For now, guest login will be removed as it relies on Supabase.
-  // If a backend guest login endpoint is implemented, this function can be re-added.
   const loginAsGuest = async () => {
     setMessage("Guest login is not available at the moment.");
   };

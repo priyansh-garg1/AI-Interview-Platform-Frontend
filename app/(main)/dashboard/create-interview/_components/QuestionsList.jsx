@@ -4,9 +4,7 @@ import { Loader2Icon } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 import QuestionListContainer from "./QuestionListContainer";
-import { supabase } from "@/services/supabaseClient";
-import { useUser } from "@/app/provider";
-import { v4 as uuidv4 } from "uuid";
+import { useUser } from "@/hooks/useUser";
 
 function QuestionsList({ formData, onCreateLink }) {
   const [loading, setLoading] = useState(true);
@@ -51,20 +49,37 @@ function QuestionsList({ formData, onCreateLink }) {
 
   const onFinish = async () => {
     setSaveLoading(true);
-    const interviewId = uuidv4();
-    const { data, error } = await supabase
-      .from("interviews")
-      .insert([
-        {
-          ...formData,
-          questionList: questionsList,
-          userEmail: user?.app_metadata?.email,
-          interview_id: interviewId,
+    const dataToSave = {
+      questionList: questionsList,
+      jobPosition: formData.jobPosition,
+      jobDescription: formData.jobDescription,
+      type: formData.type,
+      duration: formData.duration,
+      userEmail: user?.email,
+    }
+
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/interview/save`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      ])
-      .select();
-    setSaveLoading(false);
-    onCreateLink(interviewId);
+        body: JSON.stringify(dataToSave),
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to save interview data');
+      }
+      const data = await response.json();
+      console.log(data);
+      
+      setSaveLoading(false);
+      onCreateLink(data.interviewId);
+    } catch (error) {
+      setSaveLoading(false);
+      console.log(error);
+      toast("Something went wrong.");
+    }
   };
 
   return (

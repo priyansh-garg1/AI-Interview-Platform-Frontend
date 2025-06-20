@@ -10,6 +10,7 @@ import { toast } from "sonner";
 function Interview() {
     const { interviewId } = useParams();
     const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
     const [interviewData, setInterviewData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -48,6 +49,7 @@ function Interview() {
         setInterviewInfo({
             ...interviewData,
             name,
+            email
         });
         router.push(`/interview/${interviewId}/start`);
     };
@@ -133,6 +135,18 @@ function Interview() {
                             placeholder="Enter your full name"
                             value={name}
                             onChange={(e) => setName(e.target.value)}
+                        />
+                    </div>
+                    <div>
+                        <label className="text-sm font-medium text-gray-700 mb-1 block">
+                            Your Email
+                        </label>
+                        <input
+                            type="text"
+                            className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            placeholder="Enter your email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
 

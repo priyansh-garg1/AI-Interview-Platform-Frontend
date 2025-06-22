@@ -3,7 +3,6 @@ import Vapi from '@vapi-ai/web';
 import React, { useContext, useEffect, useState } from 'react';
 import { InterviewDataContext } from '@/context/InterviewDataContext';
 import { TimerIcon, BotIcon, UserIcon, MicIcon, PhoneIcon } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import AlertConfirmation from './_components/AlertConfirmation';
 import { toast } from 'sonner';
 import Image from 'next/image';
@@ -21,6 +20,7 @@ function StartInterview() {
     const userName = interviewInfo?.name || 'User';
     const vapi = new Vapi(process.env.NEXT_PUBLIC_VAPI_API_KEY);
     const [activeUser, setActiveUser] = useState(false);
+    const [conversation, setConversation] = useState();
 
     const startCall = async () => {
         let questionsList = "";
@@ -95,6 +95,26 @@ Key Guidelines:
     vapi.on('call-end', () => {
         toast.success('Interview Ended...');
     })
+
+    vapi.on('message', (message) => {
+        setConversation(message?.conversation);
+        GetFeedback(message?.conversation);
+    })
+
+    const GetFeedback = async(conversation) => {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/ai/feedback`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: {
+                conversation,
+            },
+        });
+        const data = await response.json();
+        const Content = data?.content;
+        const FINAL_CONTENT = Content?.replace(/\n/g, "<br>");
+    }
 
     useEffect(() => {
         interviewInfo && startCall()
